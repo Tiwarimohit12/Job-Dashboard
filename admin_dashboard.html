@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e1f7c1a3;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2, h3 {
+      color: #444;
+    }
+
+    table {
+      width: 80%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    td {
+      border: 1px solid #ddd;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #e0f7fa;
+    }
+
+    tr:hover {
+      background-color: #b2dfdb;
+    }
+
+    button {
+      padding: 8px 12px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 0.9rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #457ba0;
+    }
+
+    .table-container {
+      width: 100%;
+      max-width: 1200px;
+      margin-top: 20px;
+    }
+
+    .logout-btn {
+      padding: 10px 20px;
+      border: none;
+      background-color: #FF6347;
+      color: white;
+      font-size: 1rem;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background-color: #7733e5;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h2>Admin Dashboard</h2>
+
+  <div class="table-container">
+    <h3>Job Seeker Data</h3>
+    <table id="jobSeekerTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Skills</th>
+          <th>Experience</th>
+          <th>Education</th>
+          <th>Certificates</th>
+          <th>About</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <h3>Recruiter Data</h3>
+    <table id="recruiterTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Skills</th>
+          <th>Experience</th>
+          <th>Education</th>
+          <th>Certificates</th>
+          <th>About</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+
+  <script>
+    const jobSeekers = JSON.parse(localStorage.getItem("jobSeekers")) || [];
+    const recruiters = JSON.parse(localStorage.getItem("recruiters")) || [];
+
+    function displayData() {
+      const jobSeekerTable = document.getElementById("jobSeekerTable").getElementsByTagName('tbody')[0];
+      const recruiterTable = document.getElementById("recruiterTable").getElementsByTagName('tbody')[0];
+
+      jobSeekerTable.innerHTML = "";
+      recruiterTable.innerHTML = "";
+
+      jobSeekers.forEach((profile, index) => {
+        const row = jobSeekerTable.insertRow();
+        row.innerHTML = `
+          <td>${profile.name}</td>
+          <td>${profile.skills}</td>
+          <td>${profile.experience}</td>
+          <td>${profile.education}</td>
+          <td>${profile.certificates}</td>
+          <td>${profile.about}</td>
+          <td>
+            <button onclick="editJobSeeker(${index})">Edit</button>
+            <button onclick="deleteJobSeeker(${index})">Delete</button>
+          </td>
+        `;
+      });
+
+      recruiters.forEach((profile, index) => {
+        const row = recruiterTable.insertRow();
+        row.innerHTML = `
+          <td>${profile.name}</td>
+          <td>${profile.skills}</td>
+          <td>${profile.experience}</td>
+          <td>${profile.education}</td>
+          <td>${profile.certificates}</td>
+          <td>${profile.about}</td>
+          <td>
+            <button onclick="editRecruiter(${index})">Edit</button>
+            <button onclick="deleteRecruiter(${index})">Delete</button>
+          </td>
+        `;
+      });
+    }
+
+    displayData();
+
+    function editJobSeeker(index) {
+      alert('Editing Job Seeker ' + index);
+    }
+
+    function deleteJobSeeker(index) {
+      jobSeekers.splice(index, 1);
+      localStorage.setItem("jobSeekers", JSON.stringify(jobSeekers));
+      displayData();
+    }
+
+    function editRecruiter(index) {
+      alert('Editing Recruiter ' + index);
+    }
+
+    function deleteRecruiter(index) {
+      recruiters.splice(index, 1);
+      localStorage.setItem("recruiters", JSON.stringify(recruiters));
+      displayData();
+    }
+  </script>
+
+</body>
+</html>

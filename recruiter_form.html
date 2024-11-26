@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recruiter Form</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-image: url('w1.jpg');
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      color: #555;
+    }
+
+    input[type="text"], input[type="file"], textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 12px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      label, input[type="text"], input[type="file"], textarea, button {
+        font-size: 0.9rem;
+      }
+    }
+
+    .logout-btn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: #FF6347;
+      color: white;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .logout-btn:hover {
+      background-color: #e53e33;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Recruiter Form</h2>
+  
+    <form id="recruiterForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" required>
+
+      <label for="skills">Skills:</label>
+      <input type="text" id="skills" required>
+
+      <label for="experience">Experience:</label>
+      <input type="text" id="experience" required>
+
+      <label for="education">Education:</label>
+      <input type="text" id="education" required>
+
+      <label for="certificates">Certificates (Upload File):</label>
+      <input type="file" id="certificates" accept=".pdf,.jpg,.jpeg,.png" required>
+
+      <label for="about">About:</label>
+      <textarea id="about" rows="4" required></textarea>
+
+      <button type="submit">Save Profile</button>
+    </form>
+
+    <div id="message"></div>
+
+    <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+  </div>
+
+  <script>
+    const form = document.getElementById("recruiterForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      
+      const newProfile = {
+        name: document.getElementById("name").value,
+        skills: document.getElementById("skills").value,
+        experience: document.getElementById("experience").value,
+        education: document.getElementById("education").value,
+        certificates: document.getElementById("certificates").files[0]?.name || "No file uploaded",
+        about: document.getElementById("about").value
+      };
+
+      let recruiters = JSON.parse(localStorage.getItem("recruiters")) || [];
+      recruiters.push(newProfile);
+      localStorage.setItem("recruiters", JSON.stringify(recruiters));
+
+      message.innerHTML = `<p>Thank you! Your profile has been saved successfully.</p>`;
+
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 2000);
+    });
+  </script>
+
+</body>
+</html>
